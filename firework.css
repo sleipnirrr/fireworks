@@ -40,4 +40,8 @@ body {
     font-size: -webkit-xxx-large;
     font-weight: 900;
     z-index: 1 !important;
+    /* -moz-user-select: none; */
+    user-select: none;
+    /* -ms-user-select: none;
+    -khtml-user-select: none; */
 }
