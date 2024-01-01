@@ -1,65 +1,60 @@
 <!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>🚪传送门🚪</title>
-
-    <link rel="stylesheet" href="stylesheets/moon.css">
-    <link rel="stylesheet" href="stylesheets/firefly.css">
-    <link rel="stylesheet" href="stylesheets/index.css">
-    <script src="javascripts/index.js" defer></script>
-    <script src="javascripts/smoke-mouse.js" defer></script>
-    <script src="javascripts/long-press-event.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fireworks</title>
+    <link rel="stylesheet" href="firework.css">
+    <!-- <script src="https://unpkg.com/fireworks-js@2.x/dist/index.umd.js"></script> -->
+    <script src="firework.js"></script>
+    <script src="smoke-mouse.js" defer></script>
 </head>
 
 <body>
-    <!-- firefly animation -->
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
-    <div class="firefly"></div>
+    <h1 class='transparent' id='title'>小海星元旦快乐</h1>
+    <!-- <h1 contenteditable="true" class='transparent' id='title'>小海星元旦快乐</h1> -->
+    <div id="fireworks"></div>
+    <script>
+      const container = document.querySelector('#fireworks')
+      const fireworks = new Fireworks.default(container, {
+        autoresize: false,
+        intensity: 7,
+        mouse: {
+            click: true,
+            move: true,
+            max: 2
+        },
+        sound: {
+            enabled: true
+        }
+      })
+      fireworks.start()
+    </script>
 
-    <!-- background animation -->
-    <div class="background-container">
-        <div class="stars"></div>
-        <img class="moon" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/moon2.png" alt="">
-        <div class="clouds"></div>
-    </div>
+    <canvas id="smokeMouseCanvas"></canvas>
+
+    <script>
+        // pass mousemove event to lower canvas
+        const fireworksCanvas = document.querySelector("#fireworks canvas")
+        const smokeMouseCanvas = document.querySelector("#smokeMouseCanvas")
+        fireworksCanvas.addEventListener("mousemove", event => {
+            var rect = smokeMouseCanvas.getBoundingClientRect();
+            var x = event.clientX - rect.left;
+            var y = event.clientY - rect.top;
+
+            var newEvent = new MouseEvent("mousemove", {
+                bubbles: true,
+                cancelable: true,
+                clientX: x,
+                clientY: y
+            });
+            setTimeout(() => {
+                smokeMouseCanvas.dispatchEvent(event);
+            }, 1)
+        })
+    </script>
     
-    <!-- smoke cursor effect -->
-    <section id='container'>
-        <canvas></canvas>
-    </section>    
-
-    <!-- content -->
-    <div class="countdown-container" onclick="return openPortal();">
-        <script src="https://cdn.logwork.com/widget/countdown.js"></script>
-
-        <a href="https://logwork.com/countdown-ycfw" class="countdown-timer" data-style="circles"
-            data-timezone="Asia/Shanghai" data-language="ja" data-textcolor="#5ebac9" data-date="2024-01-01 00:00"
-            data-background="#F8EDBF" data-digitscolor="#5ebac9" data-unitscolor="#999999">&nbsp</a>
-    </div>
-
-    <h1 contenteditable="true" class='transparent' id='door-title'>元旦倒计时</h1>
-
-    <!-- bgm -->
-    <audio id="bgm" loop src="assets/taro.m4a"></audio>
 </body>
+
+</html>
